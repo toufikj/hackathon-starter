@@ -2,13 +2,21 @@ version: '3.8'
 services:
   mongo:
     image: mongo
+    volumes: 
+      - /mnt/mongo-data:/data/db
   web:
     build: .
     ports:
-     - "8080:8080"
+      - "8080:8080"
+    volumes:
+      - app-data:/starter
     environment:
-     - MONGODB_URI=mongodb://mongo:27017/test
+      - MONGODB_URI=mongodb://mongo:27017/test
     links:
-     - mongo
+      - mongo
     depends_on:
-     - mongo
+      - mongo
+
+volumes:
+  app-data:
+    driver: local
